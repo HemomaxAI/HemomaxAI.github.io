@@ -4,15 +4,13 @@ import { supabase } from "../supabaseClient";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router";
 
-export default function Register() {
+export default function Login() {
   const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
       email: "",
-      password: "",
-      cnpj: "",
-      name: "",
+      password: ""
     },
     onSubmit: async (values) => {
       console.log(values);
@@ -32,12 +30,10 @@ export default function Register() {
         <Box>
           <VStack>
             <form onSubmit={formik.handleSubmit}>
-              <Heading size="5xl" paddingTop="4em" >Registrar</Heading>
-              <Input placeholder="Nome" type="text" name="name" onChange={formik.handleChange} value={formik.values.name} />
-              <Input placeholder="CNPJ" type="text" name="cnpj" onChange={formik.handleChange} value={formik.values.cnpj} />
+              <Heading size="5xl" paddingTop="4em" >Entrar</Heading>
               <Input placeholder="E-mail" type="email" name="email" onChange={formik.handleChange} value={formik.values.email} />
               <Input placeholder="Senha" type="password" name="password" onChange={formik.handleChange} value={formik.values.password} />
-              <Button type="submit">Registrar</Button>
+              <Button type="submit">Entrar</Button>
             </form>
           </VStack>
         </Box>

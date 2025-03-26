@@ -1,31 +1,26 @@
+import { Navigate, Outlet } from 'react-router'
 import { useEffect, useState } from 'react'
 
-import Authenticated from './Authenticated'
-import Home from './Home'
-import { Session } from 'react-router'
+import { Session } from '@supabase/supabase-js'
 import { supabase } from '../supabaseClient'
 
-function App() {
+function Protected() {
   const [session, setSession] = useState<Session | null>(null)
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log(session)
       setSession(session)
     })
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
+      console.log(session)
       setSession(session)
     })
     return () => subscription.unsubscribe()
   }, [])
-  if (!session) {
-    return (Home)
-  }
-  else {
-    return (<Authenticated session={session}></Authenticated>)
-  }
 
-
+  return session?.access_token ? <Outlet /> : <Navigate to='/' />;
 }
 
-export default App
+export default Protected;
