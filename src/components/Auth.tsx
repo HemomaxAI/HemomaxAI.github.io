@@ -49,5 +49,5 @@ export const useAuth = () => {
 
 export function Protected() {
   const { isAuthenticated } = useAuth();
-  return isAuthenticated ? <Outlet /> : <Navigate to="/home" />;
+  return isAuthenticated ? <Outlet /> : <Navigate to="/hemomax/home" />;
 };

@@ -8,10 +8,10 @@ export default function Home() {
       <Center>
         <VStack>
           <Heading size="5xl" paddingTop="4em">Home</Heading>
-          <Link to={'/registrar'}>
+          <Link to={'/hemomax/registrar'}>
             <Button>Registrar</Button>
           </Link>
-          <Link to={'/entrar'}>
+          <Link to={'/hemomax/entrar'}>
             <Button>Entrar</Button>
           </Link>
         </VStack>

@@ -18,12 +18,12 @@ createRoot(document.getElementById('root')!).render(
         <BrowserRouter>
           <Routes>
             <Route element={<Protected />}>
-              <Route path='/painel' element={<Painel />} />
+              <Route path='/hemomax/painel' element={<Painel />} />
               {/* All other routes that you want to protect will go inside here */}
             </Route>
-            <Route path="/" element={<Home />} />
-            <Route path="/registrar" element={<Register />} />
-            <Route path="/entrar" element={<Login />} />
+            <Route path="/hemomax/home" element={<Home />} />
+            <Route path="/hemomax/registrar" element={<Register />} />
+            <Route path="/hemomax/entrar" element={<Login />} />
           </Routes>
         </BrowserRouter>
       </Provider>

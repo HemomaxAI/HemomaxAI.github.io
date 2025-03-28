@@ -20,7 +20,7 @@ export default function Login() {
       });
       console.log(response)
 
-      navigate('/painel');
+      navigate('/hemomax/painel');
     }
   });
 
