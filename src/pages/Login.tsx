@@ -14,7 +14,7 @@ export default function Login() {
     },
     onSubmit: async (values) => {
       console.log(values);
-      const response = await supabase.auth.signUp({
+      const response = await supabase.auth.signInWithPassword({
         email: values.email,
         password: values.password,
       });
