@@ -1,15 +1,15 @@
 import { Center, Container, Heading } from "@chakra-ui/react";
 
-import { useAuth } from "../components/Auth";
+import Root from "../components/Root";
 
 export default function Painel() {
-  const auth = useAuth();
   return (
-    <Container>
-      <Center>
-        <Heading size="5xl" paddingTop="4em">Painel</Heading>
-        <p>{auth.session?.access_token}</p>
-      </Center>
-    </Container>
+    <Root>
+      <Container>
+        <Center>
+          <Heading size="5xl" paddingTop="4em">Painel</Heading>
+        </Center>
+      </Container>
+    </Root>
   )
 }
