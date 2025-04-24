@@ -1,13 +1,16 @@
 import { Box } from "@chakra-ui/react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
+import { useState } from "react";
 
 export default function Root({ children }: { children: React.ReactNode }) {
+  const [showSidebar, setShowSidebar] = useState<boolean>(false);
+
   return (
     <Box>
-      <Navbar />
+      <Navbar setShowSidebar={setShowSidebar} />
       <Box>
-        <Sidebar />
+        { showSidebar ? <Sidebar /> : null }
         { children }
       </Box>
     </Box>

@@ -1,6 +1,10 @@
 import { Box, Button } from "@chakra-ui/react";
 
+import { useAuth } from "./Auth";
+
 export default function Sidebar() {
+  const auth = useAuth();
+
   return (
     <Box width="250px" height="100vh" bg="gray.800" color="white" padding="16px">
       <Box fontSize="2xl" fontWeight="bold" marginBottom="16px">
@@ -13,7 +17,7 @@ export default function Sidebar() {
         {/* Add your sidebar links here */}
         <Button width="100%" marginBottom="8px">Dashboard</Button>
         <Button width="100%" marginBottom="8px">Settings</Button>
-        <Button width="100%">Logout</Button>
+        <Button width="100%" onClick={() => auth.logout()}>Logout</Button>
       </Box>
     </Box>
   )
