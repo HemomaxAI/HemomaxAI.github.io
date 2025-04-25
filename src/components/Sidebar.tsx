@@ -11,6 +11,7 @@ export default function Sidebar() {
       <Flex direction="column" padding="16px" gap="16px">
         <Box> 
           <SidebarButton onClick={() => navigate("/hemomax/criar-laudo")} text="Criar laudo" />
+          <SidebarButton onClick={() => navigate("/hemomax/gerenciar-biomedicos")} text="Gerenciar biomédicos" />
           <SidebarButton onClick={() => auth.logout()} text="Sair" />
         </Box>
       </Flex>

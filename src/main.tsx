@@ -6,12 +6,11 @@ import { BrowserRouter, Route, Routes } from 'react-router'
 import Home from './pages/Home.tsx'
 import Login from './pages/Login.tsx'
 import { Provider } from './components/ui/provider.tsx'
-import Painel from './pages/Painel.tsx'
+import Report from './pages/Report.tsx'
 import Register from './pages/Register.tsx'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import BiomedicalPage from './pages/BiomedicalList.tsx'
-
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -20,12 +19,12 @@ createRoot(document.getElementById('root')!).render(
         <BrowserRouter>
           <Routes>
             <Route element={<Protected />}>
-              <Route path='/hemomax/painel' element={<Painel />} />
+              <Route path='/hemomax/criar-laudo' element={<Report />} />
+              <Route path='/hemomax/gerenciar-biomedicos' element={<BiomedicalPage />} />
             </Route>
             <Route path="/hemomax/" element={<Home />} />
             <Route path="/hemomax/registrar" element={<Register />} />
             <Route path="/hemomax/entrar" element={<Login />} />
-            <Route path='/hemomax/biomedical-list' element={<BiomedicalPage />} />
           </Routes>
         </BrowserRouter>
       </Provider>
