@@ -1,24 +1,34 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 
+import { useNavigate } from "react-router";
 import { useAuth } from "./Auth";
 
 export default function Sidebar() {
+  const navigate = useNavigate();
   const auth = useAuth();
-
   return (
-    <Box width="250px" height="100vh" bg="gray.800" color="white" padding="16px">
-      <Box fontSize="2xl" fontWeight="bold" marginBottom="16px">
-        HemoMax IA
-      </Box>
-      <Box marginBottom="16px">
-        <img src="/hemomax-logo.png" alt="Logo" width="100%" />
-      </Box>
-      <Box>
-        {/* Add your sidebar links here */}
-        <Button width="100%" marginBottom="8px">Dashboard</Button>
-        <Button width="100%" marginBottom="8px">Settings</Button>
-        <Button width="100%" onClick={() => auth.logout()}>Logout</Button>
-      </Box>
+    <Box width="250px" height="100%" bg="red.700" boxSizing={"border-box"} shadow={"0px 0px 5px #000000"}>
+      <Flex direction="column" padding="16px" gap="16px">
+        <Box> 
+          <SidebarButton onClick={() => navigate("/hemomax/criar-laudo")} text="Criar laudo" />
+          <SidebarButton onClick={() => auth.logout()} text="Sair" />
+        </Box>
+      </Flex>
+    </Box>
+  )
+}
+
+function SidebarButton({ text, onClick }: { text: string, onClick: () => void }) {
+  return (
+    <Box
+      height="40px"
+      onClick={onClick}
+      borderBottom={"1px solid #ffffff"}
+      cursor={"pointer"}
+      padding={"8px"}
+      paddingLeft={"32px"}
+    >
+      {text}
     </Box>
   )
 }

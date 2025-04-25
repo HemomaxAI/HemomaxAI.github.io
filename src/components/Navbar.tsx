@@ -8,7 +8,7 @@ export default function Navbar({
   setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>
 }) {
   return (
-    <Flex width="100%" height="56px" bg="red.700" alignItems={"center"} justifyContent="space-between" paddingX="16px">
+    <Flex width="100%" height="56px" bg="red.700" alignItems={"center"} justifyContent="space-between" paddingX="16px" borderBottom={"1px solid#ffffff"} shadow={"0px 0px 5px #000000"}>
       <Box width="32px" height="32px" onClick={() => setShowSidebar(value => !value)} cursor="pointer">
         <FaBars size={32}/>
       </Box>
