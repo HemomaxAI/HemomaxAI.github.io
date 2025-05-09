@@ -1,7 +1,7 @@
 import { Box, Flex } from "@chakra-ui/react";
 
-import { useNavigate } from "react-router";
 import { useAuth } from "./Auth";
+import { useNavigate } from "react-router";
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -11,6 +11,7 @@ export default function Sidebar() {
       <Flex direction="column" padding="16px" gap="16px">
         <Box> 
           <SidebarButton onClick={() => navigate("/hemomax/criar-laudo")} text="Criar laudo" />
+          <SidebarButton onClick={() => navigate("/hemomax/listar-laudos")} text="Listar laudos" />
           <SidebarButton onClick={() => navigate("/hemomax/gerenciar-biomedicos")} text="Gerenciar biomédicos" />
           <SidebarButton onClick={() => auth.logout()} text="Sair" />
         </Box>

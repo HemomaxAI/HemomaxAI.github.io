@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router'
 
 import BiomedicalPage from './pages/BiomedicalList.tsx'
 import Home from './pages/Home.tsx'
+import ListReport from './pages/ListReport.tsx'
 import Login from './pages/Login.tsx'
 import { Provider } from './components/ui/provider.tsx'
 import Register from './pages/Register.tsx'
@@ -20,6 +21,7 @@ createRoot(document.getElementById('root')!).render(
           <Routes>
             <Route element={<Protected />}>
               <Route path='/hemomax/criar-laudo' element={<Report />} />
+              <Route path='/hemomax/listar-laudos' element={<ListReport />} />
               <Route path='/hemomax/gerenciar-biomedicos' element={<BiomedicalPage />} />
             </Route>
             <Route path="/hemomax/" element={<Home />} />
