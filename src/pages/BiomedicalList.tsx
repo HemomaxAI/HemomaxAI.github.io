@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -7,45 +8,169 @@ import {
   VStack,
   HStack,
   Input,
-  Badge,
 } from '@chakra-ui/react';
-
+import { supabase } from "../supabaseClient";
+import { useAuth } from '../components/Auth';
+// Interface com apenas o campo necessário
 interface Biomedical {
-  id: number;
+  user_id: string;
   name: string;
-  requestedUpdate?: boolean;
+
 }
 
-const biomedicalMock: Biomedical[] = [
-  { id: 1, name: 'Luciane Almeida' },
-  { id: 2, name: 'Pedro Álvares', requestedUpdate: true },
-  { id: 3, name: 'Laura Diniz Freitas' },
-  { id: 4, name: 'Kleber Machado' },
-];
-
 const BiomedicalPage: React.FC = () => {
-  const [biomedicals, setBiomedicals] = useState<Biomedical[]>(biomedicalMock);
+  const auth = useAuth();
+  
+  // const [biomedicals, setBiomedicals] = useState<Biomedical[]>([]);
   const [selectedBiomedical, setSelectedBiomedical] = useState<Biomedical | null>(null);
   const [showEditor, setShowEditor] = useState(false);
 
-  const bgColor = 'red.400';
-  const lineBg = 'red.400';
+  const [biomedicals, setEmployees] = useState<{name: string}[]>([]);
+
+  useEffect(() => {
+    async function fetchEmployees() {
+      const employees = await getAllEmployees();
+      if (employees) {
+        setEmployees(employees);
+      }
+    }
+
+    fetchEmployees();
+  }, [])
+  
+  // Mock usando user_id
+  // const insertMockEmployees = async () => {
+  //   const user_id = auth.session?.user.id;
+  //   if (!user_id) {
+  //     console.error('Usuário não autenticado');
+  //     return;
+  //   }
+  //   const biomedicalMock: Omit<Biomedical, 'user_id'>[] = [
+  //     { name: 'Luciane Almeida' },
+  //     { name: 'Pedro Álvares' },
+  //     { name: 'Laura Diniz Freitas' },
+  //     { name: 'Kleber Machado' },
+  //   ];
+  //   const { data, error } = await supabase
+  //     .from('employees')
+  //     .insert({
+  //       "institution_id": "8b19081a-786c-4106-9899-c703df939f5e",
+  //       "name": "Luciane Almeida",
+  //     });
+  //   if (error) {
+  //     console.error('Erro ao inserir biomédicos:', error);
+  //   } else {
+  //     console.log('Biomédicos inseridos com sucesso:', data);
+  //     fetchEmployees(); 
+  //   }
+  // };
+
+  async function getInstitutionId() {
+    const { data, error } = await supabase
+      .from('institutions')
+      .select('id')
+      .eq('user_id', auth.session?.user.id)
+      .single();
+
+    if (error) {
+      alert("Error getting institution ID: " + error.message);
+      return;
+    }
+
+    return data?.id;
+  }
+
+  async function createEmployee(name: string, email: string, password: string) {
+    // const resp1 = await supabase.auth.signInWithPassword({
+    //   email: email,
+    //   password: password,
+    // });
+
+    // if (resp1.error) {
+    //   alert("Error creating employee: " + resp1.error.message);
+    //   return;
+    // }
+
+    const resp2 = await supabase
+    .from('employees')
+    .insert({
+      "institution_id": await getInstitutionId(),
+      "name": name,
+      // "user_id": "2274927e-ef55-453a-bdaa-2542643c31e7"
+    })
+    .select();
+
+    if (resp2.error) {
+      alert("Error creating employee: " + resp2.error.message);
+    }
+        
+    return resp2.data;
+  }
+
+  const fetchEmployees = async () => {
+    const user_id = auth.session?.user.id;
+    if (!user_id) return;
+
+    const { data, error } = await supabase
+      .from('employees')
+      .select('user_id, name')
+      .eq('user_id', user_id);
+
+    if (error) {
+      console.error('Erro ao buscar biomédicos:', error);
+    } else {
+      console.log('Biomédicos do Supabase:', data);
+      setBiomedicals(data as Biomedical[]);
+    }
+  };
+
+  async function getAllEmployees() {
+    const { data, error } = await supabase
+      .from('employees')
+      .select('*')
+      // .eq('institution_id', await getInstitutionId());
+
+    if (error) {
+      alert("Error getting employees: " + error.message);
+      return;
+    }
+
+    return data;
+  }
+
+  // useEffect(() => {
+  //   const user_id = auth.session?.user.id;
+  //   if (user_id) {
+  //     fetchEmployees();
+  //   }
+  // }, [user_id]);
 
   const handleEditClick = (biomedical: Biomedical) => {
+    const user_id = auth.session?.user.id;
     setSelectedBiomedical(biomedical);
     setShowEditor(true);
   };
 
-  const handleSave = () => {
-    if (selectedBiomedical) {
-      setBiomedicals((prev) =>
-        prev.map((bio) =>
-          bio.id === selectedBiomedical.id ? selectedBiomedical : bio
-        )
-      );
+  const handleSave = async () => {
+    const user_id = auth.session?.user.id;
+    if (!selectedBiomedical || !user_id) return;
+
+    const { error } = await supabase
+      .from('employees')
+      .update({ name: selectedBiomedical.name })
+      .eq('user_id', user_id)
+      .eq('name', selectedBiomedical.name); // ou use uma coluna id única real
+
+    if (error) {
+      console.error('Erro ao atualizar biomédico:', error);
+    } else {
+      fetchEmployees();
+      setShowEditor(false);
     }
-    setShowEditor(false);
   };
+
+  const bgColor = 'red.400';
+  const lineBg = 'red.400';
 
   return (
     <Box p={6} bg={bgColor} minH="100vh">
@@ -54,28 +179,18 @@ const BiomedicalPage: React.FC = () => {
       </Text>
 
       <VStack spacing={4} align="stretch" maxW="600px" mx="auto">
-        {biomedicals.map((biomedical) => (
+        {biomedicals.map((biomedical, index) => (
           <Flex
-            key={biomedical.id}
+            key={index}
             justify="space-between"
             align="center"
             bg={lineBg}
             p={2}
             borderBottom="1px solid white"
           >
-            <HStack>
-              <Text fontWeight="medium" color="white">
-                {biomedical.name}
-              </Text>
-              {biomedical.requestedUpdate && (
-                <HStack spacing={1}>
-                  <Badge bg="yellow.400" color="black">!</Badge>
-                  <Text fontSize="sm" color="white">
-                    Solicitou alteração de dados
-                  </Text>
-                </HStack>
-              )}
-            </HStack>
+            <Text fontWeight="medium" color="white">
+              {biomedical.name}
+            </Text>
             <Button
               size="sm"
               bg="black"
@@ -89,32 +204,24 @@ const BiomedicalPage: React.FC = () => {
         ))}
 
         {showEditor && selectedBiomedical && (
-          <Box
-            mt={4}
-            p={4}
-            bg="white"
-            borderRadius="md"
-            boxShadow="lg"
-          >
-            <Text fontSize="lg" fontWeight="bold" mb={2} color={'black'}>
+          <Box mt={4} p={4} bg="white" borderRadius="md" boxShadow="lg">
+            <Text fontSize="lg" fontWeight="bold" mb={2} color="black">
               Editar Biomédico
             </Text>
             <Input
-              placeholder="Biomedical name"
+              placeholder="Nome"
               value={selectedBiomedical.name}
               onChange={(e) =>
-                setSelectedBiomedical((prev) =>
-                  prev ? { ...prev, name: e.target.value } : prev
-                )
+                setSelectedBiomedical({ ...selectedBiomedical, name: e.target.value })
               }
               mb={4}
-              color={'black'}
+              color="black"
             />
             <HStack justify="flex-end">
-              <Button colorScheme="blue" onClick={handleSave} bg={'blue.500'} color="white" _hover={{ bg: 'blue.600' }}>
+              <Button colorScheme="blue" onClick={handleSave}>
                 Salvar
               </Button>
-              <Button variant="ghost" onClick={() => setShowEditor(false)} bg={'gray.500'} color="white" _hover={{ bg: 'gray.600' }}>
+              <Button variant="ghost" onClick={() => setShowEditor(false)}>
                 Cancelar
               </Button>
             </HStack>
@@ -123,14 +230,29 @@ const BiomedicalPage: React.FC = () => {
       </VStack>
 
       <Flex justify="center" mt={6}>
-        <Button bg="green.500" color="white" _hover={{ bg: 'green.600' }} px={8} py={6} fontWeight="bold">
-          Cadastrar
+        <Button
+          colorScheme="blue"
+          onClick={async () => await createEmployee("Laura", "laura@email.com", "123456")}
+          bg="blue.500"
+          color="white"
+          _hover={{ bg: 'blue.600' }}
+        >
+          Inserir Biomédicos
         </Button>
       </Flex>
 
-      <Text fontSize="sm" color="white" mt={4} textAlign="center">
-        2 / 10
-      </Text>
+      <Flex justify="center" mt={6}>
+        <div>
+        {/* {biomedicals.map((employee, index) => {
+          return (
+            <div key={index}>
+              <li>{employee.name}</li>
+            </div>
+          )
+        })
+        } */}
+        </div>
+      </Flex>
     </Box>
   );
 };
