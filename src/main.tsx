@@ -3,14 +3,14 @@ import './index.css'
 import { AuthProvider, Protected } from './components/Auth.tsx'
 import { BrowserRouter, Route, Routes } from 'react-router'
 
+import BiomedicalPage from './pages/BiomedicalList.tsx'
 import Home from './pages/Home.tsx'
 import Login from './pages/Login.tsx'
 import { Provider } from './components/ui/provider.tsx'
-import Report from './pages/Report.tsx'
 import Register from './pages/Register.tsx'
+import Report from './pages/CreateReport.tsx'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import BiomedicalPage from './pages/BiomedicalList.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -29,5 +29,5 @@ createRoot(document.getElementById('root')!).render(
         </BrowserRouter>
       </Provider>
     </AuthProvider>
-  </StrictMode>,
+    </StrictMode>
 )
