@@ -1,20 +1,21 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button,
   Flex,
-  Text,
-  VStack,
   HStack,
   Input,
+  Text,
+  VStack,
 } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
+
 import { supabase } from "../supabaseClient";
 import { useAuth } from '../components/Auth';
+
 // Interface com apenas o campo necessário
 interface Biomedical {
-  user_id: string;
   name: string;
+  id: string;
 
 }
 
@@ -24,6 +25,7 @@ const BiomedicalPage: React.FC = () => {
   // const [biomedicals, setBiomedicals] = useState<Biomedical[]>([]);
   const [selectedBiomedical, setSelectedBiomedical] = useState<Biomedical | null>(null);
   const [showEditor, setShowEditor] = useState(false);
+  const [name, setName] = useState<string>("");
 
   const [biomedicals, setEmployees] = useState<{name: string}[]>([]);
 
@@ -37,33 +39,6 @@ const BiomedicalPage: React.FC = () => {
 
     fetchEmployees();
   }, [])
-  
-  // Mock usando user_id
-  // const insertMockEmployees = async () => {
-  //   const user_id = auth.session?.user.id;
-  //   if (!user_id) {
-  //     console.error('Usuário não autenticado');
-  //     return;
-  //   }
-  //   const biomedicalMock: Omit<Biomedical, 'user_id'>[] = [
-  //     { name: 'Luciane Almeida' },
-  //     { name: 'Pedro Álvares' },
-  //     { name: 'Laura Diniz Freitas' },
-  //     { name: 'Kleber Machado' },
-  //   ];
-  //   const { data, error } = await supabase
-  //     .from('employees')
-  //     .insert({
-  //       "institution_id": "8b19081a-786c-4106-9899-c703df939f5e",
-  //       "name": "Luciane Almeida",
-  //     });
-  //   if (error) {
-  //     console.error('Erro ao inserir biomédicos:', error);
-  //   } else {
-  //     console.log('Biomédicos inseridos com sucesso:', data);
-  //     fetchEmployees(); 
-  //   }
-  // };
 
   async function getInstitutionId() {
     const { data, error } = await supabase
@@ -80,7 +55,7 @@ const BiomedicalPage: React.FC = () => {
     return data?.id;
   }
 
-  async function createEmployee(name: string, email: string, password: string) {
+  async function createEmployee(name: string) {
     // const resp1 = await supabase.auth.signInWithPassword({
     //   email: email,
     //   password: password,
@@ -107,23 +82,6 @@ const BiomedicalPage: React.FC = () => {
     return resp2.data;
   }
 
-  const fetchEmployees = async () => {
-    const user_id = auth.session?.user.id;
-    if (!user_id) return;
-
-    const { data, error } = await supabase
-      .from('employees')
-      .select('user_id, name')
-      .eq('user_id', user_id);
-
-    if (error) {
-      console.error('Erro ao buscar biomédicos:', error);
-    } else {
-      console.log('Biomédicos do Supabase:', data);
-      setBiomedicals(data as Biomedical[]);
-    }
-  };
-
   async function getAllEmployees() {
     const { data, error } = await supabase
       .from('employees')
@@ -138,15 +96,7 @@ const BiomedicalPage: React.FC = () => {
     return data;
   }
 
-  // useEffect(() => {
-  //   const user_id = auth.session?.user.id;
-  //   if (user_id) {
-  //     fetchEmployees();
-  //   }
-  // }, [user_id]);
-
   const handleEditClick = (biomedical: Biomedical) => {
-    const user_id = auth.session?.user.id;
     setSelectedBiomedical(biomedical);
     setShowEditor(true);
   };
@@ -155,16 +105,20 @@ const BiomedicalPage: React.FC = () => {
     const user_id = auth.session?.user.id;
     if (!selectedBiomedical || !user_id) return;
 
+
+    console.log("Selected biomedical:", selectedBiomedical);
     const { error } = await supabase
       .from('employees')
       .update({ name: selectedBiomedical.name })
-      .eq('user_id', user_id)
-      .eq('name', selectedBiomedical.name); // ou use uma coluna id única real
+      .eq('id', selectedBiomedical.id);
 
     if (error) {
       console.error('Erro ao atualizar biomédico:', error);
     } else {
-      fetchEmployees();
+      const employees = await getAllEmployees();
+      if (employees) {
+        setEmployees(employees);
+      }
       setShowEditor(false);
     }
   };
@@ -178,7 +132,7 @@ const BiomedicalPage: React.FC = () => {
         Lista de Biomédicos participantes do plano
       </Text>
 
-      <VStack spacing={4} align="stretch" maxW="600px" mx="auto">
+      <VStack padding={"4px"} align="stretch" maxW="600px" mx="auto">
         {biomedicals.map((biomedical, index) => (
           <Flex
             key={index}
@@ -196,7 +150,7 @@ const BiomedicalPage: React.FC = () => {
               bg="black"
               color="white"
               _hover={{ bg: 'gray.700' }}
-              onClick={() => handleEditClick(biomedical)}
+              onClick={() => handleEditClick(biomedical as Biomedical)}
             >
               Editar
             </Button>
@@ -212,7 +166,10 @@ const BiomedicalPage: React.FC = () => {
               placeholder="Nome"
               value={selectedBiomedical.name}
               onChange={(e) =>
+              {
+                console.log("Selected biomedical:", e.target.value)
                 setSelectedBiomedical({ ...selectedBiomedical, name: e.target.value })
+              }
               }
               mb={4}
               color="black"
@@ -232,26 +189,20 @@ const BiomedicalPage: React.FC = () => {
       <Flex justify="center" mt={6}>
         <Button
           colorScheme="blue"
-          onClick={async () => await createEmployee("Laura", "laura@email.com", "123456")}
+          onClick={async () => {
+            await createEmployee(name);
+            const employees = await getAllEmployees();
+            if (employees) {
+              setEmployees(employees);
+            }
+          }}
           bg="blue.500"
           color="white"
           _hover={{ bg: 'blue.600' }}
         >
           Inserir Biomédicos
         </Button>
-      </Flex>
-
-      <Flex justify="center" mt={6}>
-        <div>
-        {/* {biomedicals.map((employee, index) => {
-          return (
-            <div key={index}>
-              <li>{employee.name}</li>
-            </div>
-          )
-        })
-        } */}
-        </div>
+        <Input backgroundColor={"white"} color={"black"} type='text' onChange={(e) => setName(e.target.value)}></Input>
       </Flex>
     </Box>
   );
