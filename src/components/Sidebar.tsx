@@ -1,17 +1,39 @@
 import { Box, Flex } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router";
-import { useAuth } from "./Auth";
+import { useAuth } from "./auth/auth-utils";
 
 export default function Sidebar() {
   const navigate = useNavigate();
   const auth = useAuth();
+
+  const links = [
+    {
+      path: "/hemomax/criar-laudo",
+      label: "Laudos"
+    },
+    {
+      path: "/hemomax/gerenciar-biomedicos",
+      label: "Gerenciar biomédicos"
+    }
+  ];
+
   return (
-    <Box width="250px" height="100%" bg="red.700" boxSizing={"border-box"} shadow={"0px 0px 5px #000000"}>
+    <Box 
+    width="250px" 
+    height="100%" 
+    bg="red.700" 
+    boxSizing={"border-box"} 
+    >
       <Flex direction="column" padding="16px" gap="16px">
         <Box> 
-          <SidebarButton onClick={() => navigate("/hemomax/criar-laudo")} text="Criar laudo" />
-          <SidebarButton onClick={() => navigate("/hemomax/gerenciar-biomedicos")} text="Gerenciar biomédicos" />
+          { links.map((link, index) => {
+            return <SidebarButton
+              key={index} 
+              onClick={() => navigate(link.path)} 
+              text={link.label}
+            />;
+          }) }
           <SidebarButton onClick={() => auth.logout()} text="Sair" />
         </Box>
       </Flex>
@@ -28,6 +50,10 @@ function SidebarButton({ text, onClick }: { text: string, onClick: () => void })
       cursor={"pointer"}
       padding={"8px"}
       paddingLeft={"32px"}
+      textOverflow={"ellipsis"}
+      overflow={"hidden"}
+      whiteSpace={"nowrap"}
+      userSelect={"none"}
     >
       {text}
     </Box>
