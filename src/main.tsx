@@ -19,12 +19,12 @@ createRoot(document.getElementById('root')!).render(
         <BrowserRouter>
           <Routes>
             <Route element={<Protected />}>
-              <Route path='/hemomax/criar-laudo' element={<Report />} />
-              <Route path='/hemomax/gerenciar-biomedicos' element={<BiomedicalPage />} />
+              <Route path='/laudos' element={<Report />} />
+              <Route path='/gerenciar-biomedicos' element={<BiomedicalPage />} />
             </Route>
-            <Route path="/hemomax" element={<Home />} />
-            <Route path="/hemomax/registrar" element={<Register />} />
-            <Route path="/hemomax/entrar" element={<Login />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/registrar" element={<Register />} />
+            <Route path="/entrar" element={<Login />} />
           </Routes>
         </BrowserRouter>
       </Provider>

@@ -9,11 +9,11 @@ export default function Sidebar() {
 
   const links = [
     {
-      path: "/hemomax/criar-laudo",
+      path: "/laudos",
       label: "Laudos"
     },
     {
-      path: "/hemomax/gerenciar-biomedicos",
+      path: "/gerenciar-biomedicos",
       label: "Gerenciar biomédicos"
     }
   ];

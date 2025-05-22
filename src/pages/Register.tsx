@@ -22,7 +22,7 @@ export default function Register() {
       });
       console.log(response)
 
-      navigate('/hemomax/painel');
+      navigate('/laudos');
     }
   });
 

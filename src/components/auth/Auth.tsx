@@ -49,6 +49,6 @@ export function Protected() {
   } else if (isAuthenticated) {
     return <Root><Outlet /></Root>;
   } else {
-    return  <Navigate to="/hemomax/" />;
+    return  <Navigate to="/" />;
   }
 };
