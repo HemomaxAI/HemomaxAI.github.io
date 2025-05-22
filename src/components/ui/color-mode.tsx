@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 "use client"
 
 import * as React from "react"
@@ -5,7 +6,7 @@ import * as React from "react"
 import { ClientOnly, IconButton, Skeleton, Span } from "@chakra-ui/react"
 import type { IconButtonProps, SpanProps } from "@chakra-ui/react"
 import { LuMoon, LuSun } from "react-icons/lu"
-import { ThemeProvider, useTheme } from "next-themes"
+import { ThemeProvider } from "next-themes"
 
 import type { ThemeProviderProps } from "next-themes"
 
@@ -26,15 +27,17 @@ export interface UseColorModeReturn {
   toggleColorMode: () => void
 }
 
+
+
 export function useColorMode(): UseColorModeReturn {
-  const { resolvedTheme, setTheme } = useTheme()
-  const toggleColorMode = () => {
-    setTheme(resolvedTheme === "dark" ? "light" : "dark")
-  }
+  // const { resolvedTheme, setTheme } = useTheme()
+  // const toggleColorMode = () => {
+  //   setTheme(resolvedTheme === "dark" ? "light" : "dark")
+  // }
   return {
-    colorMode: resolvedTheme as ColorMode,
-    setColorMode: setTheme,
-    toggleColorMode,
+    colorMode: "light" as ColorMode,
+    setColorMode: () => {},
+    toggleColorMode: () => {},
   }
 }
 

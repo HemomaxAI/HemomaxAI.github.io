@@ -10,7 +10,7 @@ import {
 import React, { useEffect, useState } from 'react';
 
 import { supabase } from "../supabaseClient";
-import { useAuth } from '../components/Auth';
+import { useAuth } from '../components/auth/auth-utils';
 
 // Interface com apenas o campo necessário
 interface Biomedical {
@@ -123,11 +123,8 @@ const BiomedicalPage: React.FC = () => {
     }
   };
 
-  const bgColor = 'red.400';
-  const lineBg = 'red.400';
-
   return (
-    <Box p={6} bg={bgColor} minH="100vh">
+    <Box p={6} height={"100%"} bg={"#D64157"}>
       <Text fontSize="xl" fontWeight="bold" color="white" textAlign="center" mb={6}>
         Lista de Biomédicos participantes do plano
       </Text>
@@ -138,7 +135,6 @@ const BiomedicalPage: React.FC = () => {
             key={index}
             justify="space-between"
             align="center"
-            bg={lineBg}
             p={2}
             borderBottom="1px solid white"
           >
