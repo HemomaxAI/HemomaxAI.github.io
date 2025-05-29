@@ -41,7 +41,7 @@ export default function Home() {
           </Box>
         </Flex>
       </Flex>
-      <Flex flexDirection={"column"} background={"linear-gradient(to bottom, #D64157, #2B0006)"} height={"3000px"}>
+      <Flex flexDirection={"column"} backgroundColor={"#D64157"}>
         <Box
           height={"96px"}
           width={"100%"}
@@ -60,13 +60,10 @@ export default function Home() {
                 <Text fontWeight={"600"} fontSize={"xs"} textDecoration={"underline"}>Faça um teste gratuito</Text>
              </Flex>
           </Box>
-          <Box
-            width={"50%"}
-          >
+          <Box width={"50%"}>
             <Box            
               borderRadius={"16px"}
               boxShadow={"2px 4px 10px rgba(0, 0, 0, 0.5)"}
-              backgroundColor={"blue"}
             >
               <img src="/exame-de-sangue.jpg" alt="Exame de sangue" width={"100%"} draggable={false} />
             </Box>
