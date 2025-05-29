@@ -1,33 +1,23 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router";
 
 export default function Home() {
   const navigate = useNavigate();
   return (
-    <Flex flexDirection={"column"}>
-      <Flex 
-        flexDirection={"row"} 
-        height={"100px"} 
-        backgroundColor={"#F6D3CFEB"} 
-        padding={"16px 24px"} 
-        fontFamily={"Patua One"} 
+    <Flex flexDirection={"column"} fontFamily={"Patua One"}>
+      <Flex
+        flexDirection={"row"}
+        height={"100px"}
+        backgroundColor={"#F6D3CFEB"}
+        padding={"16px 24px"}
         userSelect={"none"}
-        color={"#1D1D1D"} 
+        color={"#1D1D1D"}
         fontSize={"20px"}
         fontWeight={"400"}
         justifyContent={"space-between"}
         boxShadow={"0px 4px 4px rgba(0, 0, 0, 0.25)"}
       >
-        <Flex 
-          flexDirection={"row"} 
-          alignItems={"center"} 
-          gap={"8px"}
-          cursor={"pointer"}
-          onClick={() => navigate("/#")}
-        >
-          <img src="/hemomax-logo.png" alt="Hemomax" width={"50"} draggable={false} />
-          <Text fontSize={"2xl"}>Hemomax</Text>
-        </Flex>
+        <Logo onClick={() => navigate("/#")} color="#1D1D1D"/>
         <Flex flexDirection={"row"} alignItems={"center"} gap={"32px"} justifyContent={"space-around"}>
           <Text borderBottom={"3px solid #000000"} color={"#000000"} cursor={"pointer"}>Início</Text>
           <Text color={"#484848"} cursor={"pointer"}>Para que serve?</Text>
@@ -35,16 +25,16 @@ export default function Home() {
           <Text color={"#484848"} cursor={"pointer"}>Contate-nos</Text>
         </Flex>
         <Flex flexDirection={"row"} alignItems={"center"}>
-          <Box 
-            padding={"4px 8px"} 
-            border={"2px solid #7E7E7E"} 
-            borderRadius={"18px"} 
-            backgroundColor={"#F6D3CF"} 
-            color={"#484848"} 
+          <Box
+            padding={"4px 8px"}
+            border={"2px solid #7E7E7E"}
+            borderRadius={"18px"}
+            backgroundColor={"#F6D3CF"}
+            color={"#484848"}
             cursor={"pointer"}
             onClick={() => navigate("/entrar")}
             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#F6D3CF22"}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#F6D3CF"} 
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#F6D3CF"}
             boxShadow={"0px 0px 4px rgba(0, 0, 0, 0.25)"}
           >
             Fazer login
@@ -57,20 +47,47 @@ export default function Home() {
           width={"100%"}
         />
         <Flex flexDirection={"row"} paddingX={"96px"} gap={"16px"}>
-          <Box width={"50%"} backgroundColor={"blue"}>
-            a
+          <Box width={"50%"}>
+             <Logo justifyContent="center" marginY={"12px"}/>
+             <Text fontSize={"xl"} marginY={"0px 12px"}>Identifique Doenças rapidamente e com mais Eficácia!</Text>
+             <p>O HemoMax é treinado com mais de 50 mil imagens para identificar 30 tipos de doneças sanguíneas...</p>
+             <Flex width={"100%"} marginY={"24px"} flexDirection={"column"} gap={"12px"}>
+              <Text fontSize={"xs"}>Licenças a partir de R$ 29,90 / mês</Text>
+              <Flex flexDirection={"row"} gap={"16px"} width={"100%"} >
+                <Button padding={"16px"} borderRadius={"8px"} maxWidth={"100px"} flexGrow={1}>Conecte-se</Button>
+                <Button padding={"16px"} borderRadius={"8px"} maxWidth={"100px"} flexGrow={1} backgroundColor={"#51BC1F"} color={"white"}>Assine já</Button>
+              </Flex>
+                <Text fontWeight={"600"} fontSize={"xs"} textDecoration={"underline"}>Faça um teste gratuito</Text>
+             </Flex>
           </Box>
-          <Box 
-            width={"50%"} 
-            backgroundColor={"yellow"} 
-            overflow={"hidden"} 
-            borderRadius={"16px"}
-            boxShadow={"2px 4px 10px rgba(0, 0, 0, 0.5)"}
+          <Box
+            width={"50%"}
           >
-            <img src="/exame-de-sangue.jpg" alt="Exame de sangue" width={"100%"} />
+            <Box            
+              borderRadius={"16px"}
+              boxShadow={"2px 4px 10px rgba(0, 0, 0, 0.5)"}
+              backgroundColor={"blue"}
+            >
+              <img src="/exame-de-sangue.jpg" alt="Exame de sangue" width={"100%"} draggable={false} />
+            </Box>
           </Box>
         </Flex>
       </Flex>
+    </Flex>
+  )
+}
+
+function Logo({ ...props }) {
+  return (
+    <Flex
+      flexDirection={"row"}
+      alignItems={"center"}
+      gap={"8px"}
+      cursor={"pointer"}
+      {...props}
+    >
+      <img src="/hemomax-logo.png" alt="Hemomax" width={"50"} draggable={false} />
+      <Text fontSize={"2xl"} textShadow={"0px 2px 4px rgba(0, 0, 0, 0.5)"}>HemoMax IA</Text>
     </Flex>
   )
 }
