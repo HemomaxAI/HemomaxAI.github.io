@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 export default function Home() {
   const navigate = useNavigate();
   return (
-    <Flex flexDirection={"column"} fontFamily={"Patua One"}>
+    <Flex flexDirection={"column"} fontFamily={"Patua One"} height={"100dvh"}>
       <Flex
         flexDirection={"row"}
         height={"100px"}
@@ -41,7 +41,7 @@ export default function Home() {
           </Box>
         </Flex>
       </Flex>
-      <Flex flexDirection={"column"} backgroundColor={"#D64157"}>
+      <Flex flexDirection={"column"} backgroundColor={"#D64157"} flexGrow={1}>
         <Box
           height={"96px"}
           width={"100%"}
@@ -54,8 +54,8 @@ export default function Home() {
              <Flex width={"100%"} marginY={"24px"} flexDirection={"column"} gap={"12px"}>
               <Text fontSize={"xs"}>Licenças a partir de R$ 29,90 / mês</Text>
               <Flex flexDirection={"row"} gap={"16px"} width={"100%"} >
-                <Button padding={"16px"} borderRadius={"8px"} maxWidth={"100px"} flexGrow={1}>Conecte-se</Button>
-                <Button padding={"16px"} borderRadius={"8px"} maxWidth={"100px"} flexGrow={1} backgroundColor={"#51BC1F"} color={"white"}>Assine já</Button>
+                <Button padding={"16px"} borderRadius={"8px"} maxWidth={"100px"} flexGrow={1} onClick={() => navigate("/entrar")}>Conecte-se</Button>
+                <Button padding={"16px"} borderRadius={"8px"} maxWidth={"100px"} flexGrow={1} onClick={() => navigate("/registrar")} backgroundColor={"#51BC1F"} color={"white"}>Assine já</Button>
               </Flex>
                 <Text fontWeight={"600"} fontSize={"xs"} textDecoration={"underline"}>Faça um teste gratuito</Text>
              </Flex>

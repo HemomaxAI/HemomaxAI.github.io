@@ -226,7 +226,7 @@ function ViewReport({
   }, [currentReport.created_by, currentReport.input_image_id, currentReport.input_image_path]);
 
   return (
-    <Flex direction={"column"} bg={"#D64157"}>
+    <Flex direction={"column"} bg={"#D64157"} flexGrow={1} height={"100%"}>
       <Flex flexDirection={"row"} justifyContent={"space-between"} padding={"16px"}>
         <span>{getFormatedDate(currentReport.created_at)}</span>
         <span></span>
