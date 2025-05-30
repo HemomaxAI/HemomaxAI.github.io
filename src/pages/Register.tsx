@@ -1,4 +1,4 @@
-import { Box, Button, Center, Container, Flex, Heading, Input, VStack, Text} from "@chakra-ui/react";
+import { Box, Flex, Input, Text} from "@chakra-ui/react";
 
 import { supabase } from "../supabaseClient";
 import { useFormik } from "formik";
@@ -45,18 +45,18 @@ export default function Register() {
   )
 }
 
-function Modal({children, ...props}: {children: any; }) {
+function Modal({...props}) {
   return (
     <Box padding={"32px 69px"} borderRadius={"16px"} boxShadow={"2px 4px 10px rgba(0, 0, 0, 0.5)"} backgroundColor={"#F3F3F3"} {...props}>
-      {children}
+      {props.children}
     </Box>
   )
 }
 
-function HInput({ label, type, ...props }: { label: string; type:string}) {
+function HInput({ ...props }) {
   return (
     <Flex flexDirection={"column"} >
-      <Text color={"black"} fontSize={"xl"}>{label}</Text>
+      <Text color={"black"} fontSize={"xl"}>{props.label}</Text>
       <Input {...props} 
       color={"black"} 
       borderColor={"black"} 
