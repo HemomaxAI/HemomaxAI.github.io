@@ -7,11 +7,11 @@ export default function HButton({ ...props }) {
     <Button
       fontFamily={"Inter, sans-serif"}
       fontWeight={700}
-      fontSize={"16px"}
+      fontSize={"2xl"}
       color={"white"}
       backgroundColor={"#51BC1F"}
       borderRadius={"35px"}
-      height={"35px"}
+      height={"48px"}
       onMouseEnter={(e) => {
         e.currentTarget.style.backgroundColor = "#3A8E14";
       }}
