@@ -102,8 +102,8 @@ const BiomedicalPage: React.FC = () => {
   };
 
   return (
-    <Box p={6} minHeight="100vh" bg="#D64157">
-      <Text fontSize="2xl" fontWeight="bold" color="white" textAlign="center" mb={6}>
+    <Box p={6} minHeight="100vh" bg="#E4D4BA">
+      <Text fontSize="2xl" fontWeight="bold" color="black" textAlign="center" mb={6}>
         Biomédicos participantes do plano
       </Text>
 
@@ -111,7 +111,7 @@ const BiomedicalPage: React.FC = () => {
         {biomedicals.map((biomedical) => (
           <Box
             key={biomedical.id}
-            bg="whiteAlpha.200"
+            bg="#D64157"
             borderRadius="md"
             p={4}
             boxShadow="md"
@@ -134,8 +134,8 @@ const BiomedicalPage: React.FC = () => {
         ))}
 
         {showEditor && selectedBiomedical && (
-          <Box mt={4} p={4} bg="white" borderRadius="md" boxShadow="lg">
-            <Text fontSize="lg" fontWeight="bold" mb={2} color={"black"}>
+          <Box mt={4} p={4} bg="#E4D4BA" borderRadius="md" boxShadow="lg">
+            <Text fontSize="lg" fontWeight="bold" mb={2} color="black">
               Editar Biomédico
             </Text>
             <Input
@@ -145,13 +145,24 @@ const BiomedicalPage: React.FC = () => {
                 setSelectedBiomedical({ ...selectedBiomedical, name: e.target.value })
               }
               mb={4}
-              color="gray.400"
+              color="black"
+              bg="white"
             />
             <HStack justify="flex-end">
-              <Button colorScheme="blue" onClick={handleSave} bg={"blue.500"} color="white" _hover={{ bg: "blue.600" }}>
+              <Button
+                bg="#D64157"
+                color="white"
+                _hover={{ bg: "#b83246" }}
+                onClick={handleSave}
+              >
                 Salvar
               </Button>
-              <Button variant="ghost" onClick={() => setShowEditor(false)}>
+              <Button
+                variant="ghost"
+                color="#D64157"
+                _hover={{ bg: "#E4D4BA", textDecoration: "underline" }}
+                onClick={() => setShowEditor(false)}
+              >
                 Cancelar
               </Button>
             </HStack>
@@ -159,7 +170,7 @@ const BiomedicalPage: React.FC = () => {
         )}
       </VStack>
 
-      <Box mt={10} maxW="600px" mx="auto" p={4} bg="whiteAlpha.200" borderRadius="md">
+      <Box mt={10} maxW="600px" mx="auto" p={4} bg="#E4D4BA" borderRadius="md">
         <Flex direction={{ base: "column", md: "row" }} gap={4} align="center">
           <Input
             placeholder="Nome do biomédico"
@@ -170,9 +181,9 @@ const BiomedicalPage: React.FC = () => {
             flex="1"
           />
           <Button
-            bg="blue.500"
+            bg="#D64157"
             color="white"
-            _hover={{ bg: "blue.600" }}
+            _hover={{ bg: "#b83246" }}
             onClick={async () => {
               await createEmployee(name);
               const employees = await getAllEmployees();

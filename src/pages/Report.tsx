@@ -140,55 +140,71 @@ function ListReports({
   }, [auth.session?.user.id, page, setReports]);
 
 
-  return <Flex direction={"column"} minHeight={"100%"} bg={"#D64157"}>
-    <Flex direction={"row"} justifyContent={"space-evenly"} paddingTop={"16px"}>
-      {
-        page > 1 ?
-          <IoIosArrowBack cursor={"pointer"} size={35} onClick={() => setPage(page => page - 1 || 1)} /> :
-          <Box width={"35px"} />
-      }
-      <Text color={"white"} userSelect={"none"} fontSize={24}>{page}</Text>
-      {
-        reports.length < 5 ?
-          <Box width={"35px"} /> :
-          <IoIosArrowForward cursor={"pointer"} size={35} onClick={() => setPage(page => page + 1)} />
-      }
-    </Flex>
-    <Box paddingX={"48px"} paddingY={"32px 0px"}>
-      {reports.map((report, index) => {
-        return (
-          <Flex direction={"row"} justifyItems={"center"} justifyContent={"space-between"} key={index} padding={"16px"} borderBottom={"1px solid #ffffff"}>
-            {getFormatedDate(report.created_at)}
-            <HButton
-              onClick={() => setCurrentReport(report)} backgroundColor={"#51BC1F"}>
-              Acessar relatório
-            </HButton>
-          </Flex>
-        )
-      }
-      )}
-    </Box>
-    <Box flexGrow={1} />
-    <Box paddingBottom={"16px"} marginX={"auto"}>
-      <Flex
-        bgColor={'white'}
-        borderRadius={"8px"}
-        flexDirection={"row"}
-        width={"600px"}
-        height={"50px"}
-        justifyContent={"space-between"}
-        borderBlockColor={"black"}
-        borderWidth={"1px"}
-        padding={"2px 48px"}
-        alignItems={"center"}
-      >
-        <input type="file" accept="image/*" ref={fileInputRef} style={{ display: "none" }} onChange={updateImage} />
-        <ImAttachment style={{ cursor: "pointer" }} onClick={() => handleImageUploadClick()} color="#779FE5" size={"40px"} />
-        <Text color={"grey"} userSelect={"none"}>{file?.name || "Anexar imagem"}</Text>
-        <IoSend style={{ cursor: "pointer" }} onClick={async () => await uploadFile()} color="#779FE5" size={"40px"} />
+  return (
+    <Flex direction={"column"} minHeight={"100vh"} bg={"#E4D4BA"}>
+      <Flex direction={"row"} justifyContent={"space-evenly"} paddingTop={"16px"}>
+        {
+          page > 1 ?
+            <IoIosArrowBack cursor={"pointer"} size={35} onClick={() => setPage(page => page - 1 || 1)} /> :
+            <Box width={"35px"} />
+        }
+        <Text color={"black"} userSelect={"none"} fontSize={24}>{page}</Text>
+        {
+          reports.length < 5 ?
+            <Box width={"35px"} /> :
+            <IoIosArrowForward cursor={"pointer"} size={35} onClick={() => setPage(page => page + 1)} />
+        }
       </Flex>
-    </Box>
-  </Flex>
+      <Box paddingX={"48px"} paddingY={"32px 0px"}>
+        {reports.map((report, index) => {
+          return (
+            <Flex
+              direction={"row"}
+              justifyItems={"center"}
+              justifyContent={"space-between"}
+              key={index}
+              padding={"16px"}
+              borderBottom={"1px solid #E4D4BA"}
+              bg="#D64157"
+              borderRadius="md"
+              mb={4}
+              alignItems="center"
+            >
+              <Text color="white">{getFormatedDate(report.created_at)}</Text>
+              <HButton
+                onClick={() => setCurrentReport(report)}
+                backgroundColor={"black"}
+                color="white"
+                _hover={{ backgroundColor: "#333" }}
+              >
+                Acessar relatório
+              </HButton>
+            </Flex>
+          )
+        })}
+      </Box>
+      <Box flexGrow={1} />
+      <Box paddingBottom={"16px"} marginX={"auto"}>
+        <Flex
+          bgColor={'#FFFFFF'}
+          borderRadius={"8px"}
+          flexDirection={"row"}
+          width={"600px"}
+          height={"50px"}
+          justifyContent={"space-between"}
+          borderColor={"#D64157"}
+          borderWidth={"1px"}
+          padding={"2px 48px"}
+          alignItems={"center"}
+        >
+          <input type="file" accept="image/*" ref={fileInputRef} style={{ display: "none" }} onChange={updateImage} />
+          <ImAttachment style={{ cursor: "pointer" }} onClick={() => handleImageUploadClick()} color="#D64157" size={"40px"} />
+          <Text color={"black"} userSelect={"none"}>{file?.name || "Anexar imagem"}</Text>
+          <IoSend style={{ cursor: "pointer" }} onClick={async () => await uploadFile()} color="#D64157" size={"40px"} />
+        </Flex>
+      </Box>
+    </Flex>
+  );
 }
 
 
@@ -226,21 +242,54 @@ function ViewReport({
   }, [currentReport.created_by, currentReport.input_image_id, currentReport.input_image_path]);
 
   return (
-    <Flex direction={"column"} bg={"#D64157"} flexGrow={1} height={"100%"}>
+    <Flex direction={"column"} bg={"#E4D4BA"} flexGrow={1} minHeight={"100vh"}>
       <Flex flexDirection={"row"} justifyContent={"space-between"} padding={"16px"}>
-        <span>{getFormatedDate(currentReport.created_at)}</span>
+        <Text color="black">{getFormatedDate(currentReport.created_at)}</Text>
         <span></span>
-        <HButton onClick={() => setCurrentReport(null)}>Voltar</HButton>
+        <HButton
+          onClick={() => setCurrentReport(null)}
+          backgroundColor="#D64157"
+          color="white"
+          _hover={{ backgroundColor: "#b83246" }}
+        >
+          Voltar
+        </HButton>
       </Flex>
       <Flex flexGrow={1} justifyContent={"center"} alignItems={"center"}>
-        <img
-          src={image || ""}
-          alt="Laudo"
-          style={{ maxWidth: "100%", maxHeight: "300px" }}
-        />
+        <Box
+          bg="#D64157"
+          borderRadius="md"
+          p={4}
+          boxShadow="md"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <img
+            src={image || ""}
+            alt="Laudo"
+            style={{ maxWidth: "100%", maxHeight: "300px" }}
+          />
+        </Box>
       </Flex>
-      <Flex marginTop={"16px"} border={"1px solid white"} backgroundColor={"white"} borderRadius={"8px"} marginX={"auto"} width={"600px"} paddingTop={"16px"}>
-        <Text textAlign={"justify"} paddingX={"32px"} paddingBottom={"32px"} fontSize={20} color={"black"} fontFamily={"Inter, sans-serif"} fontWeight={400}>
+      <Flex
+        marginTop={"16px"}
+        border={"1px solid #D64157"}
+        backgroundColor={"white"}
+        borderRadius={"8px"}
+        marginX={"auto"}
+        width={"600px"}
+        paddingTop={"16px"}
+      >
+        <Text
+          textAlign={"justify"}
+          paddingX={"32px"}
+          paddingBottom={"32px"}
+          fontSize={20}
+          color={"black"}
+          fontFamily={"Inter, sans-serif"}
+          fontWeight={400}
+        >
           <p>O paciente apresenta anormalidade de número de celulas</p>
           <p>2 Celulas más/ mml</p>
           <p>Normalidade de 1.5</p>
